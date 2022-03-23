@@ -14,7 +14,6 @@ headers = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
 }
 
-
 # 查询具体课程列表
 def find_kpoint_data():
     url = "http://wljy.whut.edu.cn/edu/eduCourseKpoint/findKpointDataByNo.ajax"
@@ -22,7 +21,6 @@ def find_kpoint_data():
     session = requests.session()
     result = session.post(url, params, headers=headers)
     print(result.text.encode("utf-8"))
-
 
 # 保存学习时间
 def save_learn_time():
@@ -51,7 +49,6 @@ def save_play_data():
     session = requests.session()
     result = session.post(url, params, headers=headers)
     print(result.text.encode("utf-8"))
-
 
 if __name__ == "__main__":
     find_kpoint_data()
