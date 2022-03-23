@@ -1,5 +1,5 @@
 # coding=utf-8
-
+# 版本 95.0.4638.69（正式版本） (x86_64)
 from selenium import webdriver
 
 import time
@@ -7,23 +7,23 @@ import threading
 
 browser = webdriver.Chrome()
 # 请求登陆页面
-browser.get('https://passport.zhihuishu.com/login?service=http://online.zhihuishu.com/onlineSchool/')
-
+browser.get('http://wljy.whut.edu.cn/web/login.htm')
 
 # 登陆
 def login(number, password):
-    phone_number = browser.find_element_by_id('lUsername')  # 通过id定位，手机号码
-    pwd = browser.find_element_by_id('lPassword')  # 密码
-    login_btn = browser.find_element_by_class_name('wall-sub-btn')  # 登陆按钮
-
-    phone_number.send_keys(number)  # 输入手机号码
-    pwd.send_keys(password)  # 输入密码
-    login_btn.click()  # 点击登陆按钮
-
+    browser.find_element_by_id('yonghuming').send_keys(number)
+    browser.find_element_by_id('mima').send_keys(password)
+    browser.find_element_by_id('zhanghao').click()
+    time.sleep(1)
+    browser.find_element_by_id('loginBtn').click()
+    browser.execute_script("alert('模拟登陆成功')")
+    time.sleep(1)
+    browser.switch_to_alert().accept()
 
 # 转到播放视频页面
 def to_course(key):
     time.sleep(5)
+    browser.find_element_by_id('curriculum').click()
     current = browser.current_window_handle  # 当前页面的句柄
     key = browser.find_element_by_partial_link_text(key)  # 找到课程
     key.click()  # 跳转到播放视频页面
@@ -78,17 +78,26 @@ def is_end():
             current_time = '00:00'
             total_time = '00:01'
 
+def answer_confirm(self):
+    count=1
+    while 1:
+      try:
+        confirm=self.browser.switch_to_alert()
+        print(confirm.text)
+        confirm.accept()
+        print("您已经完成时长为{}分钟的阅读！".format(count*5))
+        count+=1
+        time.sleep(300)
+      except:
+        time.sleep(2)
 
 if __name__ == '__main__':
-    '''
-    number=''#手机号码
-    password=''#密码
-    key=''#课程名称，可以部分名字
-
-    '''
+    key = '我的课程'
+    number = '203293412300022'
+    password = 'abc123456'
     login(number, password)
+
     to_course(key)
-    # 开两个线程
     t1 = threading.Thread(target=is_exist)
     t2 = threading.Thread(target=is_end)
     t2.start()
