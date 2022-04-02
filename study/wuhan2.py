@@ -35,14 +35,17 @@ def find_edu_stu_course():
         json_txt.append(json_data)
     return json_txt
 
-# 检查刷新我的课程
+# 检查和刷新我的课程
 def check_refresh_course(json_data):
-    print("检查刷新我的课程开始...")
+    print("检查和刷新我的课程开始...")
     for data2 in json_data:
         courNo = data2['courNo']
         state = float(data2['state'])
-        if(state <= 740):
-            refresh_course(courNo)
+        if(state <= 340):
+            num = 10
+            while(num >=0):
+                num = num -1
+                refresh_course(courNo)
         else:
             print("课程结束: %s"%data2)
 
